@@ -5,6 +5,7 @@ import img1 from '../assets/assets/Login/login.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
+import SocialLogin from '../Pages/SharedComponent/socialLogin/SocialLogin';
 
 const SignUp = () => {
 const {createUser,updateUserProfile}=useContext(AuthContext)
@@ -12,23 +13,39 @@ const {createUser,updateUserProfile}=useContext(AuthContext)
 const { register, reset, handleSubmit, watch, formState: { errors } } = useForm();
 const navigate = useNavigate()
     const onSubmit = data =>{
-        console.log(data);
+         
         createUser(data.email,data.password)
         .then(result=>{
             const createdUser=result.user;
             console.log(createdUser)
             updateUserProfile(data.name,data.photo)
             .then(()=>{
-                console.log('user profile info updated')
-                reset();
-                Swal.fire({
-                    position: 'User profile updated ',
-                    icon: 'success',
-                    title: 'profile updated',
-                    showConfirmButton: false,
-                    timer: 1500
-                  })
-                  navigate("/")
+              const saveUser = {name:data.name,email:data.email}
+                 fetch(`http://localhost:5000/users`,{
+                  method:"POST",
+                  headers:{
+                    'content-type':'application/json'
+                  },
+                  body:JSON.stringify(saveUser)
+
+                 })
+                 .then(res=>res.json()
+                 .then(data=>{
+                  if(data.insertedId){
+                    reset();
+                    Swal.fire({
+                      position: 'User profile updated ',
+                      icon: 'success',
+                      title: 'profile updated',
+                      showConfirmButton: false,
+                      timer: 1500
+                    })
+                    navigate("/")
+
+                  }
+                 }))
+                
+               
 
             }).catch((error)=>{
                 console.log(error)
@@ -89,6 +106,7 @@ const navigate = useNavigate()
               </div>
             </form>
             <p> Already have an account?please <Link className='text-orange-600' to="/login">Login In</Link></p>
+            <SocialLogin></SocialLogin>
           </div>
           <div className="text-center lg:text-center">
              <img src={img1} alt="" />

@@ -9,6 +9,7 @@ import PrivateRoute from "./PrivateRoute";
 import Secret from "../Pages/Secret/Secret";
 import Dashboard from "../Layout/Dashboard";
 import MyCart from "../Pages/DashBorad/MyCart";
+import AllUsers from "../Pages/DashBorad/AllUsers/AllUsers";
 
  
 
@@ -45,11 +46,15 @@ import MyCart from "../Pages/DashBorad/MyCart";
   },
   {
     path:'dashboard',
-    element:<Dashboard></Dashboard>,
+    element:<PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
     children:[
       {
         path:'mycart',
         element:<MyCart></MyCart>
+      },
+      {
+        path:'allUsers',
+        element:<AllUsers></AllUsers>
       }
     ]
   }

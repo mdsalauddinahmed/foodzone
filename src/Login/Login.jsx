@@ -6,6 +6,7 @@ import imgBg from '../../src/assets/assets/Login/loginbg.png';
 import { AuthContext } from '../Provider/AuthProvider';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import SocialLogin from '../Pages/SharedComponent/socialLogin/SocialLogin';
 
 const Login = () => {
 
@@ -85,6 +86,7 @@ const Login = () => {
               
             </form>
             <p>Are You new in this Resturant ?please <Link className='text-orange-600' to="/signUp">Register now</Link></p>
+            <SocialLogin></SocialLogin>
           </div>
         </div>
       </div>
